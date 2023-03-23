@@ -1,0 +1,5 @@
+opencv_python==4.7.0.72
+Flask==2.2.3
+keras_facenet==0.3.2
+mysql-connector-python
+tensorflow

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information</title>
+</head>
+<body>
+    <form action="{{ url_for('new_registration')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+        <input type="text" name="student_name" placeholder="Enter name of new student" class="textbox" id="student_name" required></br></br>
+        <input type="text" name="roll_no" placeholder="Enter roll number of new student" class="textbox" id="roll_no" required></br></br>
+        <input type="text" name="semester" placeholder="Enter semester of new student" class="textbox" id="semester"></br></br>
+        <input type='file' name='image'  placeholder = "upload a picture of new student" id="image" required></input>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
