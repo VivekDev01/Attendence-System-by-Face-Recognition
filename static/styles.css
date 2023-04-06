@@ -147,3 +147,13 @@
     font-weight:600
   }
 }
+
+/* information */
+.information{
+    text-align: center;
+    padding: 40px 400px 40px 400px;
+}
+
+.info-hr{
+    background-color: #000000;
+}
