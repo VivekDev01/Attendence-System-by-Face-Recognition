@@ -12,7 +12,7 @@ from datetime import date,time
 from face import Embeddings
 from werkzeug.utils import secure_filename
 
-my_db = db_connector.connect(host = "localhost",user = "ankit",passwd = "deeplearning",
+my_db = db_connector.connect(host = "192.168.149.242",user = "ankit",passwd = "deeplearning",
 database = "iitranchi_attendence_system",auth_plugin="mysql_native_password",autocommit = True)
 my_cursor = my_db.cursor()
 
