@@ -82,7 +82,7 @@ def home():
 
 @app.route("/login",methods = ["GET","POST"])
 def login():
-    user_name = "IIIT_RANCHI"
+    user_name = "as0287519@gmail.com"
     pass_word = "nidhi_kuswaha"
     if(request.method == "POST" and "username" in request.form and "password" in request.form):
         username = request.form["username"]
@@ -116,11 +116,11 @@ def stopcamera():
     cv2.destroyAllWindows()
     return redirect("/home")
 
-@app.route('/add',methods = ["POST"])
+@app.route('/add')
 def add():
     return render_template('new_student.html')
 
-@app.route('/information',methods = ["POST"])
+@app.route('/information')
 def information():
     return render_template('information.html')
 
