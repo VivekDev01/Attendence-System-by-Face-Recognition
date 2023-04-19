@@ -1,14 +1,45 @@
 # Attendence-System-by-Face-Recognition
-
-The face recognition attendance system is an efficient and reliable way to track attendance in an organization. It eliminates the need for manual attendance records and reduces the chances of errors and fraud. The system uses advanced technologies like computer vision and deep learning to accurately identify individuals and record their attendance.
-In addition to the basic functionality of marking attendance, the system can also generate reports and analytics on attendance patterns. This data can be useful for identifying trends and patterns in attendance, which can help in improving attendance management strategies.
-
-It uses FaceNet model for face recognition which produce a 512D embedding for each face 
-And this Embedding is compared with other Embeddings stored in database and this face will be of that person of database which have lowest distance to it
-
-This system have various functionalities :
-   It can add new faces at any time.
-   It gives various information like how many classes are attended by a student and how many students are attended at particular date
-   
-Overall, the face recognition attendance system offers a comprehensive solution for attendance management in organizations, providing a high level of accuracy and reliability, while also being easy to use and maintain.
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <ul>
+      <li>Python project implementing attendance system with face recognition</li>
+      <li>Uses computer vision and deep learning for accurate identification</li>
+      <li>Eliminates manual attendance records and reduces errors/fraud</li>
+      <li>Generates reports and analytics on attendance patterns</li>
+      <li>New faces can be added at any time</li>
+      <li>Provides information on classes attended by students and number of students attended on specific dates</li>
+      <li>Comprehensive attendance management solution for organizations with high accuracy and reliability.</li>
+    </ul>
+	<h2>Installation</h2>
+	<ol>
+		<li>Clone the repository to your local machine using the following command:</li>
+		<pre><code>git clone https://github.com/curious-99/Attendence-System-by-Face-Recognition.git</code></pre>
+		<li>Install the required libraries using pip:</li>
+		<pre><code>pip install -r requirements.txt</code></pre>
+		<li>Download the pre-trained face recognition model from <a href="https://github.com/ageitgey/face_recognition_models/blob/master/README.md#pre-trained-models">here</a>.</li>
+		<li>Copy the downloaded model to the <code>models</code> directory.</li>
+	</ol>
+	<h2>Usage</h2>
+	<ol>
+		<li>Add images of the persons whose attendance is to be marked in the <code>images</code> directory.</li>
+		<li>Run the following command to register the images:</li>
+		<pre><code>python register.py</code></pre>
+		<li>Run the following command to start the attendance system:</li>
+		<pre><code>python attendance.py</code></pre>
+		<li>The attendance records will be stored in the <code>attendance.csv</code> file.</li>
+	</ol>
+	<h2>Credits</h2>
+	<p>This project uses the following libraries:</p>
+	<ul>
+		<li>face_recognition</li>
+		<li>opencv-python</li>
+		<li>numpy</li>
+	</ul>
+	<h2>License</h2>
+	<p>This project is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p>
+</body>
+</html>
 
