@@ -19,7 +19,7 @@
 		<pre><code>git clone https://github.com/curious-99/Attendence-System-by-Face-Recognition.git</code></pre>
 		<li>Install the required libraries using pip:</li>
 		<pre><code>pip install -r requirements.txt</code></pre>
-		<li>Download the pre-trained face recognition model from <a href="https://github.com/ageitgey/face_recognition_models/blob/master/README.md#pre-trained-models">here</a>.</li>
+		<li>Download the pre-trained face recognition model from <a href="https://github.com/SinghAnkit1010/Attendence-System-by-Face-Recognition">here</a>.</li>
 		<li>Copy the downloaded model to the <code>models</code> directory.</li>
 	</ol>
 	<h2>Usage</h2>
