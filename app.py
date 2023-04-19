@@ -12,7 +12,7 @@ from datetime import date,time
 from face import Embeddings
 from werkzeug.utils import secure_filename
 
-my_db = db_connector.connect(host = "192.168.149.242",user = "ankit",passwd = "deeplearning",
+my_db = db_connector.connect(host = "localhost",user = "ankit",passwd = "deeplearning",
 database = "iitranchi_attendence_system",auth_plugin="mysql_native_password",autocommit = True)
 my_cursor = my_db.cursor()
 
@@ -39,6 +39,7 @@ def video_streaming():
     face_encoder = FaceNet()
     face_detector = MTCNN()
     global capture
+    url = "http://100.90.209.161:8080/video"
     capture = cv2.VideoCapture(0)
     while streaming:
         isTrue,image = capture.read()
@@ -57,17 +58,29 @@ def video_streaming():
             for id,vector in face_embeddings.items():
                 student_id.append(id)
                 distance.append(face_encoder.compute_distance(embeddings[0],vector[0]))
-            id = student_id[np.argmin(distance)]
-            my_cursor.execute("select student_name from students where student_id = %s",(id,))
-            name = my_cursor.fetchone()[0]
-            cv2.rectangle(image,(x1,y1),(x2,y2),(255,0,0),3)
-            cv2.putText(image,name,(x1,y1),cv2.FONT_HERSHEY_TRIPLEX,2,(0,0,255))
-            ret,buffer = cv2.imencode(".jpg",image)
+            if(distance[np.argmin(distance)] < 0.2):
+                id = student_id[np.argmin(distance)]
+                my_cursor.execute("select student_name from students where student_id = %s",(id,))
+                name = my_cursor.fetchone()[0]
+                cv2.rectangle(image,(x1,y1),(x2,y2),(255,0,0),3)
+                cv2.putText(image,name,(x1,y1),cv2.FONT_HERSHEY_TRIPLEX,2,(255, 255, 255))
+                mark_attendence(id,name)
+            else:
+                msg = "Student Not Present in DataBase!"
+                cv2.putText(image,msg,(15,460),cv2.FONT_HERSHEY_TRIPLEX,1,(255, 255, 255))
+            cv2.resize(image,(224,224))
+            ret,buffer = cv2.imencode(".jpg",image,[int(cv2.IMWRITE_JPEG_QUALITY), 100])
             image = buffer.tobytes()
-            mark_attendence(id,name)
             yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')      
         except:
+            msg = "No One Detected!"
+            cv2.resize(image,(224,224))
+            cv2.putText(image,msg,(150,460),cv2.FONT_HERSHEY_TRIPLEX,1,(255, 255, 255))
+            ret,buffer = cv2.imencode(".jpg",image,[int(cv2.IMWRITE_JPEG_QUALITY), 50])
+            image = buffer.tobytes()
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + image + b'\r\n')  
             continue
     capture.release()
     cv2.destroyAllWindows()
@@ -149,7 +162,7 @@ def students_information():
         date = request.form["date"]
         my_cursor.execute("select count(student_id) from attendence where in_time = %s",(date,))
         count = my_cursor.fetchone()[0]
-        return f"total number of students present at given date is{count}"
+        return render_template("/post_information_last.html")
     if request.method == 'POST' and "roll_no" in request.form:
         student_id = request.form["roll_no"]
         my_cursor.execute("select count(in_time) from attendence where student_id = %s",(student_id,))
@@ -160,7 +173,7 @@ def students_information():
         info["student_id"] = student_id
         info["class_attended"] = class_attended
         info["student_name"] = name 
-        return info
+        return render_template("/post_information.html")
     else:
         return redirect("/home")
 
