@@ -7,9 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    {% for key,value in info.items() %}
-        <dt> {{key|e}} </dt>
-        <dt> {{value|e}}</dt>
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>"roll"</th>
+                <th>"attended"</th>
+                <th>"Name"</th>
+            </tr>
+        </thead>    
+        <tbody>
+        <tr>
+
+        {% for key,value in info.items() %}
+            <td> {{value}}</td>
+        {% endfor %}
+    </tr>
+
+        </tbody>
+    </table>
 </body>
 </html>

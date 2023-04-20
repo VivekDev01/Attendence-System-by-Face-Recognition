@@ -162,7 +162,7 @@ def students_information():
         date = request.form["date"]
         my_cursor.execute("select count(student_id) from attendence where in_time = %s",(date,))
         count = my_cursor.fetchone()[0]
-        return render_template("/post_information_last.html")
+        return render_template("/post_information_last.html",students = count)
     if request.method == 'POST' and "roll_no" in request.form:
         student_id = request.form["roll_no"]
         my_cursor.execute("select count(in_time) from attendence where student_id = %s",(student_id,))
@@ -173,7 +173,7 @@ def students_information():
         info["student_id"] = student_id
         info["class_attended"] = class_attended
         info["student_name"] = name 
-        return render_template("/post_information.html")
+        return render_template("/post_information.html",info = info)
     else:
         return redirect("/home")
 
