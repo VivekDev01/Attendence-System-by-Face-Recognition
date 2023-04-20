@@ -58,6 +58,7 @@ def video_streaming():
             for id,vector in face_embeddings.items():
                 student_id.append(id)
                 distance.append(face_encoder.compute_distance(embeddings[0],vector[0]))
+            print(distance)
             if(distance[np.argmin(distance)] < 0.2):
                 id = student_id[np.argmin(distance)]
                 my_cursor.execute("select student_name from students where student_id = %s",(id,))
@@ -108,12 +109,12 @@ def login():
     else:
         return render_template('login_page.html')
     
-@app.route("/logout",methods = ["POST"])
+@app.route("/logout")
 def logout():
-    session.pop["loggedin"]
-    session.pop["username"]
-    session.pop["id"]
-    return redirect('login_page.html')
+    session.pop('loggedin', None)
+    session.pop("udername",None)
+    session.pop("id",None)
+    return render_template('login_page.html')
 
 @app.route('/take_attendence',methods = ["POST"])
 def take_attendence():
@@ -160,20 +161,35 @@ def new_registration():
 def students_information():
     if (request.method == "POST" and "date" in request.form):
         date = request.form["date"]
-        my_cursor.execute("select count(student_id) from attendence where in_time = %s",(date,))
-        count = my_cursor.fetchone()[0]
-        return render_template("/post_information_last.html",students = count)
+        my_cursor.execute("select student_id from attendence where in_time = %s",(date,))
+        ids = my_cursor.fetchall()
+        student_ids = [ids[i][0] for i in range(len(ids))]
+        students_name = []
+        for i in range(len(ids)):
+            my_cursor.execute("select student_name from students where student_id = %s",(student_ids[i],))
+            student_name = my_cursor.fetchone()[0]
+            students_name.append(student_name)
+        students_semester = []
+        for i in range(len(ids)):
+            my_cursor.execute("select semester from students where student_id = %s",(student_ids[i],))
+            semester = my_cursor.fetchone()[0]
+            students_semester.append(semester)
+        length = len(student_ids)
+        return render_template("post_information_last.html",student_ids = student_ids,students_name =students_name,students_semester = students_semester,length = length,date = date)
     if request.method == 'POST' and "roll_no" in request.form:
-        student_id = request.form["roll_no"]
-        my_cursor.execute("select count(in_time) from attendence where student_id = %s",(student_id,))
-        class_attended = my_cursor.fetchone()[0]
-        info = dict()
-        my_cursor.execute("select student_name from students where student_id = %s",(student_id,))
-        name = my_cursor.fetchone()[0]
-        info["student_id"] = student_id
-        info["class_attended"] = class_attended
-        info["student_name"] = name 
-        return render_template("/post_information.html",info = info)
+        try:
+            student_id = request.form["roll_no"]
+            my_cursor.execute("select count(in_time) from attendence where student_id = %s",(student_id,))
+            class_attended = my_cursor.fetchone()[0]
+            info = dict()
+            my_cursor.execute("select student_name from students where student_id = %s",(student_id,))
+            name = my_cursor.fetchone()[0]
+            info["student_id"] = student_id
+            info["class_attended"] = class_attended
+            info["student_name"] = name 
+            return render_template("/post_information.html",info = info)
+        except:
+            return render_template("/post_information.html",msg= "Student is not in database!")
     else:
         return redirect("/home")
 
