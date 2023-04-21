@@ -59,7 +59,7 @@ def video_streaming():
                 student_id.append(id)
                 distance.append(face_encoder.compute_distance(embeddings[0],vector[0]))
             print(distance)
-            if(distance[np.argmin(distance)] < 0.2):
+            if(distance[np.argmin(distance)] < 0.3):
                 id = student_id[np.argmin(distance)]
                 my_cursor.execute("select student_name from students where student_id = %s",(id,))
                 name = my_cursor.fetchone()[0]
